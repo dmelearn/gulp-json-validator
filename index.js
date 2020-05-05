@@ -19,7 +19,7 @@ function gulpJsonValidator(option) {
         error = new PluginError('gulp-json-validator',{
           name: 'JSON Validate Error',
           filename: file.path,
-          message: e
+          message: e + "\n" + file.path
         });
       }
     }
