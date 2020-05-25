@@ -9,7 +9,7 @@ A gulp wrapper around [json-dup-key-validator](https://github.com/jackyjieliu/js
 var gulpJsonValidator = require('gulp-json-validator');
 gulp.task('default', function() {
   return gulp.src('./**/*.json')
-    .pipe(gulpJsonValidator({ allowDuplicatedKeys: false }))
+    .pipe(gulpJsonValidator({ allowDuplicatedKeys: false, ignoreEmptyFiles: true }))
 });
 ```
 ### gulpJsonValidator([options])
@@ -20,3 +20,10 @@ Type: `Boolean`
 Default: `false`
 
 Whether duplicated keys are allowed in an object or not
+
+##### ignoreEmptyFiles
+Type: `Boolean`
+
+Default: `false`
+
+Whether to skip over validating empty files

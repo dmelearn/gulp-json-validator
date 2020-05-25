@@ -6,17 +6,28 @@ module.exports = gulpJsonValidator;
 
 function gulpJsonValidator(option) {
   var allowDuplicatedKeys = false;
-  if (option) {
+  if (option.allowDuplicatedKeys) {
     allowDuplicatedKeys = !!option.allowDuplicatedKeys;
   }
 
-  return mapStream(function(file, cb) {
+  var ignoreEmptyFiles = false;
+  if (option.ignoreEmptyFiles) {
+    ignoreEmptyFiles = !!option.ignoreEmptyFiles;
+  }
+
+  return mapStream(function (file, cb) {
     var content = file.contents;
     var error;
-    if (content) {
+    var allowed = true;
+
+    if (ignoreEmptyFiles) {
+      allowed = (file.contents.length > 0);
+    }
+
+    if (content && allowed) {
       var e = validator.validate(String(content), allowDuplicatedKeys);
       if (e) {
-        error = new PluginError('gulp-json-validator',{
+        error = new PluginError('gulp-json-validator', {
           name: 'JSON Validate Error',
           filename: file.path,
           message: e + "\n" + file.path
